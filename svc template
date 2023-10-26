@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
    name: podsvc  #name of your service 
 spec:
-   type: ClusterIP  #note how that both IP are caps 
+   type: ClusterIP  #note how that both IP are caps #if type is not specified it will create a cluster ip automatically
    selector:
       app: hello  #must match the label of your pod/ Rc/ Rs/ deployment
    ports:
