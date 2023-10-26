@@ -1,7 +1,7 @@
 kind: Pod
 apiVersion: v1
 metadata:
-  name: pod1
+  name: pod1    #name of your pod 
   namespace: dev
   labels:
     app: hello 
