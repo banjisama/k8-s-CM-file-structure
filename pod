@@ -1,0 +1,14 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod1
+  namespace: dev
+  labels:
+    app: hello 
+spec:
+   containers:
+   - name: webapp
+     image: mylandmarktech/java-web-app:latest
+     ports:
+     - containerPort: 8080
+       
