@@ -1,0 +1,12 @@
+kind: Service 
+apiVersion: v1
+metadata:
+   name: podsvc  #name of your service 
+spec:
+   type: ClusterIP  #note how that both IP are caps 
+   selector:
+      app: hello  #must match the label of your pod/ Rc/ Rs/ deployment
+   ports:
+   - port: 80
+     targetPort: 8080
+   
