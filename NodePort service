@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+   name: npsvc
+spec:
+   type: NodePort
+   selector:
+      app: hello #needs to match the label in your pod/Rc/Rs/Deployment
+   ports:
+   - port: 80
+     targetPort: 8080
+     nodePort: 31500
+
