@@ -1,0 +1,21 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+   name: repc
+   labels:
+      app: rcc
+spec:
+   selector:
+      app: rc1
+   replicas: 2
+   template:  #pod template
+      metadata:
+         name: helloapp
+         labels:
+            app: rc1
+      spec:
+         containers:
+         - name: helloc
+           image: mylandmarktech/hello
+           ports:
+           - containerPort: 80
