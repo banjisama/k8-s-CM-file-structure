@@ -1,0 +1,19 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+   name: webapprc
+spec:
+   selector:
+      matchLabels:
+         app: web
+   template:
+      metadata:
+         name: webapp
+         labels:
+             app: web
+      spec:
+         containers:
+         - name: webappcon
+           image: mylandmarktech/maven-web-app:class34
+           ports:
+           - containerPort: 8080
