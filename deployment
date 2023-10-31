@@ -1,0 +1,25 @@
+# only in deployment and RC do we have  name, namespace and labels in the 1st metadata. 
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: webdeploy
+   namespace: dev
+   labels:
+     app: dep
+spec:
+   selector:
+      matchLabels:
+         app: wdep
+   replicas: 3
+   template:
+      metadata:
+         name: webapp
+         labels:
+            app: wdep
+      spec:
+         containers:
+         - name: web
+           image: mylandmarktech/java-web-app:latest
+           ports:
+           - containerPort: 8080
