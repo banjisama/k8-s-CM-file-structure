@@ -1,5 +1,7 @@
 # with RC we dont specify how many Replicas in the manifest file, we only scale up pr down.
 # but with RC we can specify how man replicas in the manifest file. 
+# a daemon set ensures a pod is scheduled on every node in the cluster.
+# a daemon set cannot be scaled. 
 
 kind: ReplicaSet
 apiVersion: apps/v1
