@@ -1,0 +1,2 @@
+ensures that the pod we want to create is created on every availabe node in the cluster.
+with a daemon set we cannot scale up or down
