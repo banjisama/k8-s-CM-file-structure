@@ -1,3 +1,6 @@
+# with RC we dont specify how many Replicas in the manifest file, we only scale up pr down.
+# but with RC we can specify how man replicas in the manifest file. 
+
 kind: ReplicaSet
 apiVersion: apps/v1
 metadata:
