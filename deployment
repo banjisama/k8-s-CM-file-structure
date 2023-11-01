@@ -8,6 +8,8 @@ metadata:
    labels:
      app: dep
 spec:
+   strategy:
+      type: RollingUpdate
    selector:
       matchLabels:
          app: wdep
