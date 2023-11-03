@@ -1,0 +1,36 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:
+   name: mongors
+spec:
+   selector:
+      matchLabels:
+         app: mongoo
+   template:
+      metadata:
+         name: mongopod
+         labels:
+            app: mongoo
+      spec:
+         containers:
+         - name: mongocontainer
+           image: mongo
+           ports:
+           - containerPort: 27017
+           env:
+           - name: MONGO_INITDB_ROOT_USERNAME
+             value: banjisama
+           - name: MONGO_INITDB_ROOT_PASSWORD
+             value: 079banjisan
+---
+kind: Service
+apiVersion: v1
+metadata:
+   name: banjihost
+spec:
+   type: ClusterIP
+   selector:
+      app: mongoo
+   ports:
+   - port: 27017
+     targetPort: 27017
