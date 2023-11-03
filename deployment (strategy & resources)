@@ -23,10 +23,10 @@ spec:
            image: mylandmarktech/hello
            resources:
               requests:
-                 cpu: "1000"
+                 cpu: "1000m"
                  memory: "256Mi"
               limits:
-                 cpu: "1000"
+                 cpu: "1000m"
                  memory: "256Mi"
            ports:
            - containerPort: 8080
