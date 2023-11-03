@@ -1,0 +1,51 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: spring-boot-docker
+spec:
+   strategy:
+      type: RollingUpdate
+      rollingUpdate:
+         maxSurge: 1
+         maxUnavailable: 0
+   selector:
+      matchLabels:
+         app: spring
+   replicas: 2
+   template:
+      metadata:
+         name: spiderpod
+         labels:
+            app: spring
+      spec:
+         containers:
+         - name: springcontainer
+           image: mylandmarktech/spring-boot-mongo:latest
+           resources:
+              requests:
+                 cpu: "200m"
+                 memory: "256Mi"
+              limits:
+                 cpu: "200m"
+                 memory: "256Mi"
+           ports:
+           - containerPort: 8080
+             env:
+             - name: MONGO_DB_HOSTNAME
+             value: banjihost
+             - name: MONGO_DB_USERNAME
+             value: banjisama
+             - name: MONGO_DB_PASSWORD
+             value: 079banjisan
+---
+kind: Service
+apiVersion: v1
+metadata:
+   name: springsvc
+spec:
+   type: NodePort
+   selector:
+      app: spring
+   ports:
+   - port: 80
+     targetPort: 8080
