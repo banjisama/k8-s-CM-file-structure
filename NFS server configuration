@@ -1,0 +1,39 @@
+# NFS stand for network file system
+# 1. before installing the nfs kernel serever we need to update our systems repository index so that we are able to install the latest version 
+of a software through ubuntu repositories then install the NFS kerenel server
+
+sudo apt-get update
+sudo apt install nfs-kerenel-server -y
+
+# 2. create the export directory
+# you can give it any name or a name instructed by the company
+# -p allows you make a directory in a directory
+
+sudo mkdir -p /mount/share/
+
+# 3. to allow clients access the directory we need to remove all restrictive permissions
+
+sudo chown nobody:nogroup /mount/share/
+sudo chown 777 /mount/share/ 
+
+# 4. assign server access to clients through nFS export file.
+# use can put your vpc infront of the code meaning that anyone who has access to this vpc has access to the server or use wildcard (*)
+#meaning anyone from anyone has access. the former is used in real work situations.
+# only the vpc changes here.
+
+sudo vi /etc/exports
+172.31.0.0/16(rw,sync,no_subtree_check,no_root_squash)
+
+# 5. export the share directory
+
+sudo exportfs -a 
+sudo systemctl restart nfs-kernel-server 
+
+# 6.
+# open the firewall for clients
+# edit inbound rules, look for nfs and port 2049 should automatically be open.
+
+# 7.
+configure your master and worker nodes by running the following command on all of them 
+
+sudo apt-get update && sudo apt install nfs-common -y
