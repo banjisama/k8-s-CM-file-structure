@@ -1,0 +1,24 @@
+            
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:   #(hard rule)
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: 
+            operator: In
+            values:
+            
+---
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:    #(soft rule) 
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: 
+            operator: In
+            values:
+           
+ 
