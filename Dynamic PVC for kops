@@ -1,0 +1,15 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mongo-pv
+  labels:
+    type: local
+spec:
+  storageClassName: dynamic
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 172.31.35.63
+    path: "/mount/share"
