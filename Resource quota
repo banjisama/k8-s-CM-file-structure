@@ -1,0 +1,14 @@
+#Resource Quota
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: dev-ns-quota
+  namespace: dev
+spec:
+  hard:
+   requests.cpu: "1"
+   requests.memory: "1Gi"
+   limits.cpu: "2"
+   limits.memory: "4Gi"
+   pods: "4"                     # only 4 pods can be made in this NS
+   count/deployments.apps: "1"   # we defined that only 1 deployment can be made in this NS
