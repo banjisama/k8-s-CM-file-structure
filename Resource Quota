@@ -1,0 +1,22 @@
+-# We are applying network policy for mavenwebapp pods here. 
+-#Only java app pods can connect mavenwebapp pods if we apply below rule.
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mongodb-network-pol
+  namespace: test
+spec:
+  podSelector:
+    matchLabels:
+      app: mongodb
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: springapp
+      ports:
+        - protocol: TCP
+          port: 27017  
