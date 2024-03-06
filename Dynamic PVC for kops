@@ -1,16 +1,58 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: mongo-con
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mongs
+  template:
+    metadata:
+      labels:
+        app: mongs
+    spec:
+      containers:
+      - name: mongo-con
+        image: mongo
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_DB_USERNAME
+          value: banjisama
+        - name: MONGO_DB_PASSWORD
+          value: 079banjisan
+        volumeMounts:
+        - name:  mongo-pv
+          mountPath:  /data/db
+      volumes:
+      - name: mongo-pv
+        persistentVolumeClaim:
+          claimName: mongo-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongoworld
+spec:
+  selector:
+    app: mongs
+  type: ClusterIP
+  ports:
+  - port: 27017
+    targetPort: 27018
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-nfs-pv1
+  name: mongo-pvc
+  namespace: dev
+  labels:
+    app: mongs
 spec:
+  storageClassName: "default"  #kubectl get sc --> you need to either use the name of a storage class you have or download one online
   accessModes:
-    - ReadWriteMany
+  - ReadWriteOnce
   resources:
     requests:
-      storage: 500Mi
----
-# what it looks like in your deployment
-volumes:
-- name: mongovol
-  persistentVolumeClaim:
-    claimName: pvc-nfs-pv1
+      storage: 2Gi
