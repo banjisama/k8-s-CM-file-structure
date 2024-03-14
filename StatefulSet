@@ -1,59 +1,53 @@
-StatefulSets:
----
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
-  name: mongosvc
+  name: stasvc
 spec:
-  clusterIP: None # Headless Service
+  clusterIP: None  #should be capital N
   selector:
-    app: mongod
+    apps: banji
   ports:
   - port: 27017
     targetPort: 27017
 ---
-apiVersion: apps/v1
 kind: StatefulSet
+apiVersion: apps/v1
 metadata:
-  name: mongod
+  name: mongosts
 spec:
-  selector:
+  serviceName: stasvc   # unique only to a STS
+  selector: 
     matchLabels:
-      app: mongod
-  serviceName: mongosvc   #the name of your headless svc
+      apps: banji
   replicas: 3
   template:
     metadata:
+      name: mongopo
       labels:
-        app: mongod
+        apps: banji
     spec:
-      terminationGracePeriodSeconds: 10
       containers:
-      - name: mongodbcontainer
+      - name: mongoapp
         image: mongo
-        command:
-         - "mongod"
-         - "--bind_ip"
-         - "0.0.0.0"
-         - "--replSet"
-         - "MainRepSet"
-        resources:
-          requests:
-            cpu: 200m
-            memory: 128Mi
-          limits:
-            cpu: 200m
-            memory: 256Mi
         ports:
-        - containerPort: 27017
+        - containerPort: 8080
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: banjisama
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: 079banjisan
         volumeMounts:
-        - name: mongodb-persistent-storage-claim
-          mountPath: "/data/db"
-  volumeClaimTemplates:
+        - name: mongo-pvc
+          mountPath: /data/db
+  volumeClaimTemplates:  
   - metadata:
-      name: mongodb-persistent-storage-claim
+      name: mongo-pvc
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "default"
       resources:
         requests:
           storage: 1Gi
+# for a sts, this volumueClaimTemplate creates a pvc which dynamically creates a PV for each replica & binds
+  each pv to it's pvc.
+# unlike for deployments or RS, we don't have to create a pvc yaml file seperatly because it's already included in the sts
